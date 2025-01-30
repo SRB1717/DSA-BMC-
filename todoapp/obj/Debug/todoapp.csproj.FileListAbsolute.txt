@@ -1,0 +1,7 @@
+C:\Users\SUMAN\source\repos\todoapp\obj\Debug\todoapp.csproj.AssemblyReference.cache
+C:\Users\SUMAN\source\repos\todoapp\obj\Debug\todoapp.csproj.CoreCompileInputs.cache
+C:\Users\SUMAN\source\repos\todoapp\bin\Debug\todoapp.exe.config
+C:\Users\SUMAN\source\repos\todoapp\bin\Debug\todoapp.exe
+C:\Users\SUMAN\source\repos\todoapp\bin\Debug\todoapp.pdb
+C:\Users\SUMAN\source\repos\todoapp\obj\Debug\todoapp.exe
+C:\Users\SUMAN\source\repos\todoapp\obj\Debug\todoapp.pdb

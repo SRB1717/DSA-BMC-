@@ -1,0 +1,7 @@
+C:\Users\SUMAN\source\repos\ConsoleApp3 pracitce\bin\Debug\ConsoleApp3 pracitce.exe.config
+C:\Users\SUMAN\source\repos\ConsoleApp3 pracitce\bin\Debug\ConsoleApp3 pracitce.exe
+C:\Users\SUMAN\source\repos\ConsoleApp3 pracitce\bin\Debug\ConsoleApp3 pracitce.pdb
+C:\Users\SUMAN\source\repos\ConsoleApp3 pracitce\obj\Debug\ConsoleApp3 pracitce.csproj.AssemblyReference.cache
+C:\Users\SUMAN\source\repos\ConsoleApp3 pracitce\obj\Debug\ConsoleApp3 pracitce.csproj.CoreCompileInputs.cache
+C:\Users\SUMAN\source\repos\ConsoleApp3 pracitce\obj\Debug\ConsoleApp3 pracitce.exe
+C:\Users\SUMAN\source\repos\ConsoleApp3 pracitce\obj\Debug\ConsoleApp3 pracitce.pdb
