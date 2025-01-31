@@ -1,85 +1,138 @@
 ﻿using System;
+using MySql.Data.MySqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 
-namespace todoapp
+namespace TodoApp
 {
     internal class Program
     {
+        private static string connString = "Server=localhost;Database=todo;User=root;Password=suman;";
 
-
-        private static  void Main(string[] args)
+        private static void Main(string[] args)
         {
-            List<string> list = new List<string>();
-            int count = 0;
             while (true)
             {
-                Console.WriteLine("we are creating a todo app ");
-                Console.WriteLine("add task");
-                Console.WriteLine("view task");
-                Console.WriteLine("remove task");
+                Console.WriteLine("We are creating a todo app");
+                Console.WriteLine("Add task");
+                Console.WriteLine("View task");
+                Console.WriteLine("Remove task");
 
-                String Task = Console.ReadLine();
+                string userChoice = Console.ReadLine();
 
-
-                if (Task.Equals("add task", StringComparison.OrdinalIgnoreCase))
+                if (userChoice.Equals("add task", StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine("write the task that you want to add ");
-                    string mytask = Console.ReadLine();
-                    list.Add(mytask);
-                    count++;
-                    Console.WriteLine(count);
-
+                    // Add Task
+                    Console.WriteLine("Write the task that you want to add: ");
+                    string taskToAdd = Console.ReadLine();
+                    AddTaskToDatabase(taskToAdd);
                 }
-                else if (Task.Equals("view task", StringComparison.OrdinalIgnoreCase))
+                else if (userChoice.Equals("view task", StringComparison.OrdinalIgnoreCase))
                 {
-                    
-
-                    foreach (string task in list)
-                    {
-                        {
-                            Console.WriteLine($" {task}");
-
-                        }
-                    }
+                    // View Tasks
+                    ViewTasksFromDatabase();
                 }
-                else if (Task.Equals("remove task", StringComparison.CurrentCultureIgnoreCase))
+                else if (userChoice.Equals("remove task", StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine("which task do you want to remove you have following task ");
-                    foreach (string task in list)
-                    {
-                        Console.WriteLine(task);
-
-                    }
-                    string itemdel = Console.ReadLine();
-                    for (int j = 0; j < count; j++)
-                    {
-                        if (list[j].Equals(itemdel, StringComparison.CurrentCultureIgnoreCase))
-                        {
-                            list.RemoveAt(j);
-                            Console.WriteLine($"the elemet {itemdel} is deleted successfully ");
-                            break;
-
-                        }
-
-
-                    }
+                    // Remove Task
+                    Console.WriteLine("Which task do you want to remove? You have the following tasks:");
+                    ViewTasksFromDatabase();
+                    Console.WriteLine("Enter the task name to remove: ");
+                    string taskToRemove = Console.ReadLine();
+                    RemoveTaskFromDatabase(taskToRemove);
                 }
                 else
                 {
-                    Console.WriteLine("invalid command ");
+                    Console.WriteLine("Invalid command. Please try again.");
                 }
             }
+        }
 
+        private static void AddTaskToDatabase(string taskName)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connString))
+            {
+                try
+                {
+                    connection.Open();
 
+                    string insertQuery = "INSERT INTO Tasks (TaskName) VALUES (@TaskName)";
+                    using (MySqlCommand cmd = new MySqlCommand(insertQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@TaskName", taskName);
+                        cmd.ExecuteNonQuery();
+                        Console.WriteLine("Task added successfully!");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+        }
 
+        private static void ViewTasksFromDatabase()
+        {
+            using (MySqlConnection connection = new MySqlConnection(connString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string selectQuery = "SELECT * FROM Tasks";
+                    using (MySqlCommand cmd = new MySqlCommand(selectQuery, connection))
+                    {
+                        using (MySqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (!reader.HasRows)
+                            {
+                                Console.WriteLine("No tasks available.");
+                            }
+                            else
+                            {
+                                while (reader.Read())
+                                {
+                                    Console.WriteLine($"TaskID: {reader["TaskID"]}, Task: {reader["TaskName"]}, Completed: {reader["IsCompleted"]}");
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+        }
+
+        private static void RemoveTaskFromDatabase(string taskName)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string deleteQuery = "DELETE FROM Tasks WHERE TaskName = @TaskName";
+                    using (MySqlCommand cmd = new MySqlCommand(deleteQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@TaskName", taskName);
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine($"Task '{taskName}' removed successfully!");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Task '{taskName}' not found.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
         }
     }
 }
-
-
-
