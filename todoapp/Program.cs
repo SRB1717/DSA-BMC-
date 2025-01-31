@@ -12,7 +12,7 @@ namespace todoapp
     {
 
 
-        private static void Main(string[] args)
+        private static  void Main(string[] args)
         {
             List<string> list = new List<string>();
             int count = 0;
@@ -37,14 +37,36 @@ namespace todoapp
                 }
                 else if (Task.Equals("view task", StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine("inside view");
+                    
 
                     foreach (string task in list)
                     {
                         {
-                            Console.WriteLine($"the item in the list is {task}");
+                            Console.WriteLine($" {task}");
 
                         }
+                    }
+                }
+                else if (Task.Equals("remove task", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Console.WriteLine("which task do you want to remove you have following task ");
+                    foreach (string task in list)
+                    {
+                        Console.WriteLine(task);
+
+                    }
+                    string itemdel = Console.ReadLine();
+                    for (int j = 0; j < count; j++)
+                    {
+                        if (list[j].Equals(itemdel, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            list.RemoveAt(j);
+                            Console.WriteLine($"the elemet {itemdel} is deleted successfully ");
+                            break;
+
+                        }
+
+
                     }
                 }
                 else
